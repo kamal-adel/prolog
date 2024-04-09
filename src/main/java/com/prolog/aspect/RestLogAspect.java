@@ -28,9 +28,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 @Component
 public class RestLogAspect {
 
-  private static final Logger logger = (Logger) LoggerFactory.getLogger(RestLogAspect.class);
+  private Logger logger;
   private final LogConfiguration logConfiguration;
-
   private Exception exception = null;
   private LogLevel level;
 
@@ -42,6 +41,8 @@ public class RestLogAspect {
 
   @Around("execution(* *(..)) && @within(logExecution) && @within(org.springframework.web.bind.annotation.RestController)")
   public Object logAroundRestController(ProceedingJoinPoint joinPoint, RestLog logExecution) {
+    Class<?> clazz = joinPoint.getTarget().getClass();
+    logger = (Logger) LoggerFactory.getLogger(clazz);
     return applyLogExecutionAnnotation(joinPoint, logExecution);
   }
 
@@ -66,7 +67,7 @@ public class RestLogAspect {
     return result;
   }
 
-  private void logOnExit(ProceedingJoinPoint joinPoint, RestLog restLog, Object response) {
+  private void logOnExit(ProceedingJoinPoint joinPoint, RestLog restLog, Object response) throws Exception {
     if (restLog.logOnExit()) {
       Object[] args = joinPoint.getArgs();
       LogResponse logResponse = new LogResponse();
@@ -74,8 +75,8 @@ public class RestLogAspect {
       logBodyObject.setLogPointState(logConfiguration.getResponseIdentifier());
       HttpServletResponse httpServletResponse = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getResponse();
       HttpServletRequest httpServletRequest = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
-      ((LogResponse) logBodyObject).setResponseBody(response);
       assert httpServletResponse != null;
+      ((LogResponse) logBodyObject).setResponseBody(response);
       ((LogResponse) logBodyObject).setResponseStatusCode(httpServletResponse.getStatus());
       logBodyObject.setArgs(args);
       logBodyObject.setQueryParam(httpServletRequest.getQueryString());
@@ -84,8 +85,12 @@ public class RestLogAspect {
         ((LogResponse) logBodyObject).setResponseError(exception.getMessage());
         logBodyObject.setLogLevel(LogLevel.ERROR.name());
         level = LogLevel.ERROR;
+        ((LogResponse) logBodyObject).setResponseStatusCode(null);
       }
       logBody(logBodyObject);
+      if(exception != null) {
+        throw exception;
+      }
     }
   }
 

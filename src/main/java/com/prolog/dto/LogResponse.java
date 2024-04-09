@@ -1,11 +1,13 @@
 package com.prolog.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class LogResponse extends LogBody {
 
   @JsonProperty("responseBody")

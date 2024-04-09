@@ -69,7 +69,7 @@ public class ServiceLogAspect {
     }
   }
 
-  private void logOnExit(ProceedingJoinPoint joinPoint, ServiceLog logAnnotation, Object result) throws JsonProcessingException {
+  private void logOnExit(ProceedingJoinPoint joinPoint, ServiceLog logAnnotation, Object result) throws Exception {
     if (logAnnotation.logOnExit()) {
       LogResponse logResponse = new LogResponse();
       LogBody logBody = constructLogBody(logResponse, joinPoint);
@@ -77,9 +77,13 @@ public class ServiceLogAspect {
       logBody.setLogPointState(logConfiguration.getResponseIdentifier());
       if (exception != null) {
         ((LogResponse) logBody).setResponseError(exception.getMessage());
+        level = LogLevel.ERROR;
         logBody.setLogLevel(LogLevel.ERROR.name());
       }
       logBody(logResponse);
+      if(exception!=null) {
+        throw exception;
+      }
     }
   }
 
