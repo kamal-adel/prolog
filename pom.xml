@@ -55,6 +55,18 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+	<distributionManagement>
+		<repository>
+			<id>central</id>
+			<name>a0vn3vdo010ql-artifactory-primary-0-releases</name>
+			<url>https://anonymouss.jfrog.io/artifactory/prolog</url>
+		</repository>
+		<snapshotRepository>
+			<id>snapshots</id>
+			<name>a0vn3vdo010ql-artifactory-primary-0-snapshots</name>
+			<url>https://anonymouss.jfrog.io/artifactory/prolog</url>
+		</snapshotRepository>
+	</distributionManagement>
 
 	<build>
 		<plugins>

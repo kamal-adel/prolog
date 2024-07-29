@@ -1,8 +1,9 @@
 package com.prolog.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Map;
 import lombok.Data;
-import lombok.ToString;
+import lombok.NonNull;
 
 @Data
 public class LogBody {
@@ -33,4 +34,40 @@ public class LogBody {
 
   @JsonProperty("traceId")
   private String traceId;
+
+  @JsonProperty("requestHeaders")
+  private Map<String, String> requestHeaders;
+
+  @JsonProperty("responseBody")
+  private Object responseBody;
+
+  @JsonProperty("responseStatusCode")
+  private Integer responseStatusCode;
+
+  @JsonProperty("responseError")
+  private String responseError;
+
+  @JsonProperty("requestSizeBytes")
+  private Double requestSizeBytes;
+
+  @JsonProperty("responseSizeBytes")
+  private Double responseSizeBytes;
+
+  @JsonProperty("httpMethod")
+  private String httpMethod;
+
+  @JsonProperty("executionTimeMs")
+  private String executionTimeMs;
+
+  @JsonProperty("timeStamp")
+  private String timeStamp;
+
+  @JsonProperty("environment")
+  private String environment;
+
+  @JsonProperty("version")
+  private String version;
+
+  @JsonProperty("contentType")
+  private String contentType;
 }

@@ -8,11 +8,25 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target(ElementType.TYPE)
+@Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ServiceLog {
+public @interface MethodLogger {
+
   boolean logOnEntry() default true;
+
   boolean logOnExit() default true;
+
   LogLevel level() default INFO;
-  boolean hideSensitiveData() default false;
+
+  boolean hideHeadersSensitiveData() default false;
+
+  boolean hideRequestBodySensitiveData() default false;
+
+  boolean hideResponseBodySensitiveData() default false;
+
+  boolean hideRequestBody() default false;
+
+  boolean hideResponseBody() default false;
+
+  String[] sensitiveAttributes() default {"password", "token", "x-api-key"};
 }

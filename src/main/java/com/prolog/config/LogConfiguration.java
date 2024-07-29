@@ -19,6 +19,8 @@ public class LogConfiguration {
 
   private String environmentName;
 
+  private String version;
+
   @NotNull
   @NotBlank
   private String responseIdentifier;
@@ -28,6 +30,4 @@ public class LogConfiguration {
   private String requestIdentifier;
 
   private boolean prettyLogFormat;
-
-  private boolean enableMasking;
 }

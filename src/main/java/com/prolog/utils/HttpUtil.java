@@ -15,11 +15,13 @@ public class HttpUtil {
 
   public static Map<String, String> extractRequestHeaders(HttpServletRequest httpServletRequest) {
     Map<String, String> headers = new HashMap<>();
-    Enumeration<String> headerNames = httpServletRequest.getHeaderNames();
-    while (headerNames.hasMoreElements()) {
-      String headerName = headerNames.nextElement();
-      String headerValue = httpServletRequest.getHeader(headerName);
-      headers.put(headerName, headerValue);
+    if (httpServletRequest != null) {
+      Enumeration<String> headerNames = httpServletRequest.getHeaderNames();
+      while (headerNames.hasMoreElements()) {
+        String headerName = headerNames.nextElement();
+        String headerValue = httpServletRequest.getHeader(headerName);
+        headers.put(headerName, headerValue);
+      }
     }
     return headers;
   }

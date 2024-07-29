@@ -1,6 +1,7 @@
 package com.prolog.annotations;
 
 import static com.prolog.enums.LogLevel.INFO;
+import static com.prolog.enums.LoggerType.SLF4J;
 
 import com.prolog.enums.LogLevel;
 import java.lang.annotation.ElementType;
@@ -10,9 +11,18 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface RestLog {
+public @interface ClassLogger {
   boolean logOnEntry() default true;
   boolean logOnExit() default true;
   LogLevel level() default INFO;
-  boolean hideSensitiveData() default false;
+  boolean hideHeadersSensitiveData() default false;
+
+  boolean hideRequestBodySensitiveData() default false;
+
+  boolean hideResponseBodySensitiveData() default false;
+
+  boolean hideRequestBody() default false;
+  boolean hideResponseBody() default false;
+  String[] sensitiveAttributes() default {"password", "token", "x-api-key"};
+
 }
